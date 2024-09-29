@@ -11,8 +11,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "matricula")
@@ -35,9 +38,10 @@ public class Matricula {
     @Getter @Setter        
     private Curso curso;
 
-    @Column(name = "data_matricula")
+    @Temporal(TemporalType.DATE)
+    @Column(name = "dt_matricula")
     @Getter @Setter
-    private String dtMatricula;
+    private LocalDate dtMatricula;
 
     @Column(name = "nota")
     @Getter @Setter

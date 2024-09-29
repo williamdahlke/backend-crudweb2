@@ -8,11 +8,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.LocalDate;
 
 @Entity
 @Table(name="aluno")
@@ -35,9 +37,10 @@ public class Aluno {
     @Getter @Setter
     private String email;
 
+    @Temporal(TemporalType.DATE)
     @Column(name="dt_nascimento")
     @Getter @Setter
-    private String dtNascimento;
+    private LocalDate dtNascimento;
 
     @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
     @JsonIgnore
