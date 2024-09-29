@@ -1,8 +1,8 @@
 package crudweb2.crudweb2.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,12 +14,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="curso")
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(value = { "matriculas" }, allowGetters = true)
+ 
 public class Curso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)    
@@ -35,7 +38,7 @@ public class Curso {
     @Getter @Setter
     private String link;
 
-    @OneToMany(mappedBy="curso", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="curso", fetch = FetchType.EAGER)
     @JsonManagedReference
     @Getter @Setter
     private List<Matricula> matriculas;

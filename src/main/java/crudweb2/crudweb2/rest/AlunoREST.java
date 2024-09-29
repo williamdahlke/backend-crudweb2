@@ -48,15 +48,16 @@ public class AlunoREST {
     
     @PostMapping("/alunos")
     @Operation(description = "Registra um novo aluno")
-    public ResponseEntity<Aluno> insertAluno(@RequestBody Aluno aluno) {
+    public ResponseEntity<Aluno> insertAluno(@RequestBody Aluno aluno) {        
         Optional<Aluno> op = alunoRepository.findAlunoByCpf(aluno.getCpf());
-        if (op.isPresent()){
+        if (op.isPresent()){            
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
         else{
             aluno.setId(-1);
             alunoRepository.save(aluno);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            
+            return ResponseEntity.status(HttpStatus.CREATED).body(aluno);
         }
     }
 

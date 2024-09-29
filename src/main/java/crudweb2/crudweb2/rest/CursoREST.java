@@ -56,7 +56,7 @@ public class CursoREST {
         else{
             curso.setId(-1);
             cursoRepository.save(curso);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.CREATED).body(curso);
         }
     }
     
@@ -74,7 +74,7 @@ public class CursoREST {
     }
 
     @DeleteMapping("/cursos/{id}")
-    @Operation(description = "Delete um curso existente")  
+    @Operation(description = "Deleta um curso existente")  
     public ResponseEntity<Curso> deleteCurso(@PathVariable int id){
         Optional<Curso> op = cursoRepository.findById(id);
         if (op.isPresent()){
