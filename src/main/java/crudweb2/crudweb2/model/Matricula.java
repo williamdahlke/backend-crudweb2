@@ -1,7 +1,6 @@
 package crudweb2.crudweb2.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,6 +12,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
@@ -38,11 +41,15 @@ public class Matricula {
     @Getter @Setter        
     private Curso curso;
 
+    @NotNull(message = "A data de matrícula não pode ser nula")
+    @Future(message = "A data de matrícula é inválida")
     @Temporal(TemporalType.DATE)
     @Column(name = "dt_matricula")
     @Getter @Setter
     private LocalDate dtMatricula;
 
+    @Min(value = 0)
+    @Max(value = 10)
     @Column(name = "nota")
     @Getter @Setter
     private float nota;    

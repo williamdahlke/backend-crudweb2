@@ -8,12 +8,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
-
 import crudweb2.crudweb2.model.Curso;
 import crudweb2.crudweb2.repository.CursoRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,7 +47,7 @@ public class CursoREST {
     
     @PostMapping("/cursos")
     @Operation(description = "Registra um novo curso")
-    public ResponseEntity<Curso> insertCurso(@RequestBody Curso curso) {
+    public ResponseEntity<Curso> insertCurso(@Valid @RequestBody Curso curso) {
         Optional<Curso> op = cursoRepository.findCursoByLink(curso.getLink());        
         if (op.isPresent()){
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -62,7 +61,7 @@ public class CursoREST {
     
     @PutMapping("/cursos/{id}")
     @Operation(description = "Atualiza um curso existente")
-    public ResponseEntity<Curso> updateCurso(@PathVariable int id, @RequestBody Curso curso) {
+    public ResponseEntity<Curso> updateCurso(@PathVariable int id, @Valid @RequestBody Curso curso) {
         Optional<Curso> op = cursoRepository.findById(id);
         if (op.isPresent()){
             curso.setId(id);

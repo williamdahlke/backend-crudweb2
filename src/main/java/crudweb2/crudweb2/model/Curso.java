@@ -8,12 +8,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -30,10 +31,13 @@ public class Curso {
     @Getter @Setter
     private int id;
 
+    @NotEmpty(message = "O nome do curso não pode ser nulo ou em branco")
+    @Size(min=3, message = "O nome do curso precisa ter no mínimo 3 caracteres")
     @Column(name="nome")
     @Getter @Setter
     private String nome;
-
+    
+    @NotEmpty(message = "O link do curso não pode ser nulo ou em branco")
     @Column(name="link")
     @Getter @Setter
     private String link;
