@@ -6,8 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.util.List;
 import java.util.Optional;
+
+import crudweb2.crudweb2.interfaces.IView;
 import crudweb2.crudweb2.model.Curso;
 import crudweb2.crudweb2.repository.CursoRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +24,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
 @CrossOrigin
 @RestController
 @Tag(name="Curso", description = "Controller para requisições de busca, alteração, atualização e deleção de cursos")
@@ -27,6 +31,7 @@ public class CursoREST {
     @Autowired
     private CursoRepository cursoRepository;
 
+    @JsonView(IView.IViewOptional.class)
     @GetMapping("/cursos")
     @Operation(description = "Busca todos os cursos registrados")
     public ResponseEntity<List<Curso>> getAllCursos() {
@@ -34,6 +39,7 @@ public class CursoREST {
         return ResponseEntity.ok(list);
     }
 
+    @JsonView(IView.IViewOptional.class)
     @GetMapping("/cursos/{id}")
     @Operation(description = "Busca um curso por ID")
     public ResponseEntity<Curso> getCursoById(@PathVariable int id) {

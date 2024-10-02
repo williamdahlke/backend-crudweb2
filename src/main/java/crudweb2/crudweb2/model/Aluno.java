@@ -11,9 +11,9 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,7 +46,7 @@ public class Aluno {
     private String email;
 
     @NotNull(message = "A data de nascimento não pode estar nula")
-    @Future(message = "A data de nascimento é inválida")
+    @Past(message = "A data de nascimento é inválida")
     @Temporal(TemporalType.DATE)
     @Column(name="dt_nascimento")
     @Getter @Setter

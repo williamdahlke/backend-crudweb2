@@ -12,10 +12,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
@@ -28,7 +28,7 @@ public class Matricula {
     @Getter @Setter
     @Column(name="id")    
     private int id;
-
+    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="aluno_id")
     @JsonIgnoreProperties("matriculas")
@@ -42,7 +42,7 @@ public class Matricula {
     private Curso curso;
 
     @NotNull(message = "A data de matrícula não pode ser nula")
-    @Future(message = "A data de matrícula é inválida")
+    @Past(message = "A data de matrícula é inválida")
     @Temporal(TemporalType.DATE)
     @Column(name = "dt_matricula")
     @Getter @Setter
