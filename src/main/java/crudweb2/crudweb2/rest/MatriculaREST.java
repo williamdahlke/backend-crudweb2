@@ -78,7 +78,7 @@ public class MatriculaREST {
             matriculaRepository.save(matricula);
             return ResponseEntity.ok(matricula);
         } else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(op.get());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
