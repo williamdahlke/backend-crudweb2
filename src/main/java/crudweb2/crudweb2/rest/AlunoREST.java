@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @CrossOrigin
@@ -35,9 +34,8 @@ public class AlunoREST {
     @ApiResponses(value = {
          @ApiResponse(responseCode = "200"),
          @ApiResponse(responseCode = "204", content = @Content()),
-         @ApiResponse(responseCode = "500", content = @Content()),        
-     })    
-    @ResponseStatus(code = HttpStatus.OK)
+         @ApiResponse(responseCode = "500", content = @Content())        
+    })    
     public ResponseEntity<List<Aluno>> getAllAlunos(){
         List<Aluno> list = alunoRepository.findAll();
         if (list.isEmpty()){
@@ -45,9 +43,14 @@ public class AlunoREST {
         }
         return ResponseEntity.ok(list);
     }
-
+    
     @GetMapping("/alunos/{id}")
     @Operation(description = "Busca um aluno por ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "404", content = @Content()),
+        @ApiResponse(responseCode = "500", content = @Content())        
+    })           
     public ResponseEntity<Aluno> getAlunoById(@PathVariable int id) {
         Optional<Aluno> aluno = alunoRepository.findById(id);
         if (aluno.isPresent()){
@@ -59,21 +62,31 @@ public class AlunoREST {
     
     @PostMapping("/alunos")
     @Operation(description = "Registra um novo aluno")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201"),
+        @ApiResponse(responseCode = "400", content = @Content()),
+        @ApiResponse(responseCode = "409", content = @Content()),
+        @ApiResponse(responseCode = "500", content = @Content())                        
+    })        
     public ResponseEntity<Aluno> insertAluno(@Valid @RequestBody Aluno aluno) {        
         Optional<Aluno> op = alunoRepository.findAlunoByCpf(aluno.getCpf());
         if (op.isPresent()){            
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
         else{
-            aluno.setId(-1);
-            alunoRepository.save(aluno);
-            
+            alunoRepository.save(aluno);            
             return ResponseEntity.status(HttpStatus.CREATED).body(aluno);
         }
     }
 
     @PutMapping("/alunos/{id}")
     @Operation(description = "Atualiza um aluno existente")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "400", content = @Content()),
+        @ApiResponse(responseCode = "404", content = @Content()),
+        @ApiResponse(responseCode = "500", content = @Content())                        
+    })           
     public ResponseEntity<Aluno> updateAluno(@PathVariable int id, @Valid @RequestBody Aluno aluno) {
         Optional<Aluno> op = alunoRepository.findById(id);
         if (op.isPresent()){
@@ -81,12 +94,17 @@ public class AlunoREST {
             alunoRepository.save(aluno);
             return ResponseEntity.ok(aluno);
         } else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(op.get());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
     
     @DeleteMapping("/alunos/{id}")
     @Operation(description = "Deleta um aluno existente")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "404", content = @Content()),
+        @ApiResponse(responseCode = "500", content = @Content())
+    })        
     public ResponseEntity<Aluno> deleteAluno(@PathVariable int id){
         Optional<Aluno> op = alunoRepository.findById(id);
         if (op.isPresent()){
