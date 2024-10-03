@@ -6,12 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.fasterxml.jackson.annotation.JsonView;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import crudweb2.crudweb2.interfaces.IView;
 import crudweb2.crudweb2.model.Curso;
 import crudweb2.crudweb2.repository.CursoRepository;
+import crudweb2.crudweb2.views.CursoView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -31,7 +31,6 @@ public class CursoREST {
     @Autowired
     private CursoRepository cursoRepository;
 
-    @JsonView(IView.IViewOptional.class)
     @GetMapping("/cursos")
     @Operation(description = "Busca todos os cursos registrados")
     @ApiResponses(value = {
@@ -39,15 +38,21 @@ public class CursoREST {
          @ApiResponse(responseCode = "204", content = @Content()),
          @ApiResponse(responseCode = "500", content = @Content())        
      })        
-    public ResponseEntity<List<Curso>> getAllCursos() {
+    public ResponseEntity<List<CursoView>> getAllCursos() {
         List<Curso> list = cursoRepository.findAll();
+        List<CursoView> viewList = new ArrayList<>();
+
+        list.forEach(item-> {
+            CursoView curso = new CursoView(item);
+            viewList.add(curso);
+        });
+
         if (list.isEmpty()){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }        
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(viewList);
     }
 
-    @JsonView(IView.IViewOptional.class)
     @GetMapping("/cursos/{id}")
     @Operation(description = "Busca um curso por ID")
     @ApiResponses(value = {
@@ -55,10 +60,10 @@ public class CursoREST {
         @ApiResponse(responseCode = "404", content = @Content()),
         @ApiResponse(responseCode = "500", content = @Content())        
     })       
-    public ResponseEntity<Curso> getCursoById(@PathVariable int id) {
+    public ResponseEntity<CursoView> getCursoById(@PathVariable int id) {
         Optional<Curso> op = cursoRepository.findById(id);
         if (op.isPresent()){
-            return ResponseEntity.ok(op.get());
+            return ResponseEntity.ok(new CursoView(op.get()));
         } else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
