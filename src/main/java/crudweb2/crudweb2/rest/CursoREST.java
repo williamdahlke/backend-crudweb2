@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import crudweb2.crudweb2.model.Curso;
 import crudweb2.crudweb2.repository.CursoRepository;
 import crudweb2.crudweb2.views.CursoView;
@@ -40,16 +42,12 @@ public class CursoREST {
      })        
     public ResponseEntity<List<CursoView>> getAllCursos() {
         List<Curso> list = cursoRepository.findAll();
-        List<CursoView> viewList = new ArrayList<>();
-
-        list.forEach(item-> {
-            CursoView curso = new CursoView(item);
-            viewList.add(curso);
-        });
-
         if (list.isEmpty()){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }        
+        } 
+        List<CursoView> viewList = list.stream()
+                                      .map(CursoView::new)
+                                      .collect(Collectors.toList());                                                     
         return ResponseEntity.ok(viewList);
     }
 
