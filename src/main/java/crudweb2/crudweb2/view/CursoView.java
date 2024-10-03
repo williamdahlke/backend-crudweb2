@@ -1,5 +1,6 @@
 package crudweb2.crudweb2.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import crudweb2.crudweb2.model.Curso;
@@ -15,7 +16,7 @@ public class CursoView {
     @Getter @Setter
     public String link = "";
     @Getter @Setter
-    public List<Matricula> matriculas = null;
+    public List<Matricula> matriculas = new ArrayList<>();
 
     public CursoView(Curso curso){
         this.id = curso.getId();
