@@ -1,4 +1,4 @@
-package crudweb2.crudweb2.views;
+package crudweb2.crudweb2.view;
 
 import java.util.List;
 
