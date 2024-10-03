@@ -17,9 +17,7 @@ import lombok.Setter;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonView;
 
-import crudweb2.crudweb2.interfaces.IView;
 
 @Entity
 @Table(name="curso")
@@ -45,7 +43,6 @@ public class Curso {
     @Getter @Setter
     private String link;
 
-    @JsonView(IView.IViewOptional.class)
     @OneToMany(mappedBy="curso", fetch = FetchType.EAGER)
     @JsonManagedReference
     @Getter @Setter
