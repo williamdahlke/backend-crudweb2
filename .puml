@@ -1,0 +1,95 @@
+@startuml
+
+package "exception" {
+  class GlobalExceptionHandler {
+    +handleException()
+    +handleNotFoundException()
+  }
+}
+
+package "model" {
+  class Aluno {
+    +int id
+    +String nome
+    +String cpf
+    +String email
+    +LocalDate dtNascimento
+    +List<Matricula> matriculas
+  }
+
+  class Curso {
+    +int id
+    +String nome
+    +String link
+    +List<Matricula> matriculas
+  }
+
+  class Matricula {
+    +int id
+    +Aluno aluno
+    +Curso curso
+    +LocalDate dtMatricula
+    +float nota
+  }
+
+  Aluno --> "1..*" Matricula : "matriculas"
+  Curso --> "1..*" Matricula : "matriculas"
+  Matricula --> "1" Aluno : "aluno"
+  Matricula --> "1" Curso : "curso"
+}
+
+package "repository" {
+  class AlunoRepository {
+    +findById()
+    +findAll()
+    +save()
+    +deleteById()
+  }
+  
+  class CursoRepository {
+    +findById()
+    +findAll()
+    +save()
+    +deleteById()
+  }
+  
+  class MatriculaRepository {
+    +findById()
+    +save()
+    +deleteById()
+  }
+}
+
+package "rest" {
+  class AlunoREST {
+    +getAlunoById()
+    +getAllAlunos()
+    +createAluno()
+    +updateAluno()
+    +deleteAluno()
+  }
+  
+  class CursoREST {
+    +getCursoById()
+    +getAllCursos()
+    +createCurso()
+    +updateCurso()
+    +deleteCurso()
+  }
+  
+  class MatriculaREST {
+    +getMatriculaById()
+    +createMatricula()
+    +updateMatricula()
+    +deleteMatricula()
+  }
+}
+
+package "view" {
+  class CursoView {
+    +String getCursoNome()
+    +String getCursoLink()
+  }
+}
+
+@enduml
