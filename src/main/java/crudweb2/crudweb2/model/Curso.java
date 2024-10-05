@@ -33,12 +33,13 @@ public class Curso {
     private int id;
 
     @NotEmpty(message = "O nome do curso não pode ser nulo ou em branco")
-    @Size(min=3, message = "O nome do curso precisa ter no mínimo 3 caracteres")
+    @Size(min=3, max = 256, message = "O nome do curso precisa ter no mínimo 3 e no máximo 256 caracteres")    
     @Column(name="nome")
     @Getter @Setter
     private String nome;
     
     @NotEmpty(message = "O link do curso não pode ser nulo ou em branco")
+    @Size(min=3, max = 1024, message = "O link do curso precisa ter no mínimo 3 e no máximo 1024 caracteres")
     @Column(name="link")
     @Getter @Setter
     private String link;

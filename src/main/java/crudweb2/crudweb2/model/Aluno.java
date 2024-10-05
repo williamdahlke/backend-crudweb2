@@ -1,6 +1,5 @@
 package crudweb2.crudweb2.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -52,7 +51,7 @@ public class Aluno {
     @Getter @Setter
     private LocalDate dtNascimento;
 
-    @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "aluno")
     @JsonIgnore
     @Getter @Setter
     private List<Matricula> matriculas;

@@ -11,12 +11,18 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Map<String, String>> handlerValidationExceptions(MethodArgumentNotValidException ex) {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors()
-                .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+
+        // Itera pelos erros e adiciona somente a mensagem de erro no Map
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String errorMessage = error.getDefaultMessage();
+            errors.put("error" + errors.size(), errorMessage);
+        });
+
+        // Retorna um ResponseEntity com os erros formatados
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }
