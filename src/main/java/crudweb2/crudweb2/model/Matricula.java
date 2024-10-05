@@ -15,7 +15,7 @@ import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
@@ -42,7 +42,7 @@ public class Matricula {
     private Curso curso;
 
     @NotNull(message = "A data de matrícula não pode ser nula")
-    @Past(message = "A data de matrícula é inválida")
+    @PastOrPresent(message = "A data de matrícula é inválida")
     @Temporal(TemporalType.DATE)
     @Column(name = "dt_matricula")
     @Getter @Setter
