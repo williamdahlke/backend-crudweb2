@@ -7,4 +7,5 @@ import crudweb2.crudweb2.model.Curso;
 
 public interface CursoRepository extends JpaRepository<Curso, Integer> {
     public Optional<Curso> findCursoByNome(String nome);
+    public boolean existsMatriculasById(Integer id);
 }

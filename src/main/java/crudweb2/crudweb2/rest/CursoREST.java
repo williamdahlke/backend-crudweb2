@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-@CrossOrigin
+@CrossOrigin(exposedHeaders = "error-message")
 @RestController
 @Tag(name="Curso", description = "Controller para requisições de busca, alteração, atualização e deleção de cursos")
 public class CursoREST {
@@ -108,11 +108,16 @@ public class CursoREST {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200"),
         @ApiResponse(responseCode = "404", content = @Content()),
+        @ApiResponse(responseCode = "409", content = @Content(), description = "Conflito: O curso possui matrículas associadas"),                
         @ApiResponse(responseCode = "500", content = @Content())
     })            
     public ResponseEntity<Curso> deleteCurso(@PathVariable int id){
         Optional<Curso> op = cursoRepository.findById(id);
         if (op.isPresent()){
+            boolean possuiMatriculas = cursoRepository.existsMatriculasById(id);
+            if (possuiMatriculas){
+                return ResponseEntity.status(HttpStatus.CONFLICT).header("error-message", "Conflito: O curso possui matrículas associadas").build();
+            }
             cursoRepository.delete(op.get());
             return ResponseEntity.ok(op.get());
         } else{

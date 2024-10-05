@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-@CrossOrigin
+@CrossOrigin(exposedHeaders = "error-message")
 @RestController
 @Tag(name="Aluno", description = "Controller para requisições de busca, alteração, atualização e deleção de alunos")
 public class AlunoREST {
@@ -103,11 +103,16 @@ public class AlunoREST {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200"),
         @ApiResponse(responseCode = "404", content = @Content()),
+        @ApiResponse(responseCode = "409", content = @Content(), description = "Conflito: O aluno possui matrículas associadas"),        
         @ApiResponse(responseCode = "500", content = @Content())
     })        
     public ResponseEntity<Aluno> deleteAluno(@PathVariable int id){
         Optional<Aluno> op = alunoRepository.findById(id);
         if (op.isPresent()){
+            boolean possuiMatriculas = alunoRepository.existsMatriculasById(id);
+            if (possuiMatriculas){
+                return ResponseEntity.status(HttpStatus.CONFLICT).header("error-message", "Conflito: O aluno possui matrículas associadas").build();
+            }
             alunoRepository.delete(op.get());
             return ResponseEntity.ok(op.get());
         } else{
