@@ -74,7 +74,7 @@ public class CursoREST {
         @ApiResponse(responseCode = "500", content = @Content())                        
     })       
     public ResponseEntity<Curso> insertCurso(@Valid @RequestBody Curso curso) {
-        Optional<Curso> op = cursoRepository.findCursoByLink(curso.getLink());        
+        Optional<Curso> op = cursoRepository.findCursoByNome(curso.getNome());        
         if (op.isPresent()){
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }

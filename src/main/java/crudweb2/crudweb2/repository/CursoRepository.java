@@ -6,5 +6,5 @@ import java.util.Optional;
 import crudweb2.crudweb2.model.Curso;
 
 public interface CursoRepository extends JpaRepository<Curso, Integer> {
-    public Optional<Curso> findCursoByLink(String link);
+    public Optional<Curso> findCursoByNome(String nome);
 }
