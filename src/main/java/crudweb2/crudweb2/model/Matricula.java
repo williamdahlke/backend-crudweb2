@@ -1,6 +1,9 @@
 package crudweb2.crudweb2.model;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,7 +21,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "matricula")
@@ -48,8 +50,8 @@ public class Matricula {
     @Getter @Setter
     private LocalDate dtMatricula;
 
-    @Min(value = 0)
-    @Max(value = 10)
+    @Min(value = 0, message="A nota deve ser informada entre 0 e 10")
+    @Max(value = 10, message="A nota deve ser informada entre 0 e 10")
     @Column(name = "nota")
     @Getter @Setter
     private float nota;    
