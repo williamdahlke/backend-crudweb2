@@ -1,12 +1,19 @@
 package crudweb2.crudweb2.rest;
 
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import crudweb2.crudweb2.model.Matricula;
 import crudweb2.crudweb2.repository.MatriculaRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,11 +22,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 
 @CrossOrigin
 @RestController
@@ -92,7 +94,7 @@ public class MatriculaREST {
     public ResponseEntity<Matricula> deleteMatricula(@PathVariable int id){
         Optional<Matricula> op = matriculaRepository.findById(id);
         if (op.isPresent()){
-            matriculaRepository.delete(op.get());
+            matriculaRepository.delete(op.get());            
             return ResponseEntity.ok(op.get());
         } else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

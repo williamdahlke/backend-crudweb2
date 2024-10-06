@@ -26,4 +26,7 @@ create table matricula(
 
 insert into aluno(nome, cpf, email, dt_nascimento) values ('Rafael', '12345678902', 'rafael@gmail.com', '1979-06-21');
 insert into curso(nome, link) values ('Sistemas da Informação', 'teste.com.br');
-insert into matricula(curso_id, aluno_id, dt_matricula, nota) values (1, 2, '2024-09-29', 9);
+
+insert into matricula(curso_id, aluno_id, dt_matricula, nota) values (
+(select max(id) from curso where nome = 'Sistemas da Informação'),
+(select max(id) from aluno where cpf = '12345678902'), '2024-09-29', 9);
